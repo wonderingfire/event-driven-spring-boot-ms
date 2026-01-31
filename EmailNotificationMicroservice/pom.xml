@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.appsdeveloperblog.ws</groupId>
-	<artifactId>ProductsMicroservice</artifactId>
+	<artifactId>EmailNotificationMicroservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ProductsMicroservice</name>
-	<description>Products Microservice</description>
+	<name>EmailNotificationMicroservice</name>
+	<description>Email Notification Microservice</description>
 	<url/>
 	<licenses>
 		<license/>
