@@ -22,12 +22,6 @@ public class KafkaProducerConfiguration {
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootStrapServers;
 
-    @Value("${spring.kafka.producer.key-serializer}")
-    private String keySerializer;
-
-    @Value("${spring.kafka.producer.value-serializer}")
-    private String valueSerializer;
-
     @Value("${spring.kafka.producer.acks}")
     private String acks;
 

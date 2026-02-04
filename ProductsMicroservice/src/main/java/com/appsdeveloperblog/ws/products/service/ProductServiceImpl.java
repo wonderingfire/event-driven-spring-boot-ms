@@ -2,12 +2,14 @@ package com.appsdeveloperblog.ws.products.service;
 
 import com.appsdeveloperblog.ws.core.ProductCreatedEvent;
 import com.appsdeveloperblog.ws.products.rest.CreateProductRestModel;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Service
@@ -25,7 +27,6 @@ public class ProductServiceImpl implements ProductService{
         String productId = UUID.randomUUID().toString();
 
         // TODO: persist product details into database table before publishing an event
-
         ProductCreatedEvent productCreatedEvent =new ProductCreatedEvent(
                 productId, productRestModel.getTitle(),
                 productRestModel.getPrice(),
@@ -33,8 +34,15 @@ public class ProductServiceImpl implements ProductService{
 
         LOGGER.info("Before publishing a ProductCreatedEvent");
 
+        ProducerRecord<String, ProductCreatedEvent> record = new ProducerRecord<>(
+                "product-created-events-topic",
+                        productId,
+                        productCreatedEvent);
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
+
         SendResult<String, ProductCreatedEvent> result =
-                kafkaTemplate.send("product-created-events-topic", productId, productCreatedEvent).get();
+                kafkaTemplate.send(record).get();
+
 
         LOGGER.info("Partition: {}", result.getRecordMetadata().partition());
         LOGGER.info("Topic: {}", result.getRecordMetadata().topic());
