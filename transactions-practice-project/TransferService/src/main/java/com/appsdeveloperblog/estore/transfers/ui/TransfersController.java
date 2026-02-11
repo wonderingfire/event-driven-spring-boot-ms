@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/transfers")
 public class TransfersController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private TransferService transferService;
+    private final TransferService transferService;
 
     public TransfersController(TransferService transferService) {
         this.transferService = transferService;

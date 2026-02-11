@@ -8,12 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.appsdeveloperblog.estore.transfers.error.TransferServiceException;
 import com.appsdeveloperblog.estore.transfers.model.TransferRestModel;
 import com.appsdeveloperblog.payments.ws.core.events.DepositRequestedEvent;
 import com.appsdeveloperblog.payments.ws.core.events.WithdrawalRequestedEvent;
+
+import java.net.ConnectException;
 
 @Service
 public class TransferServiceImpl implements TransferService {
@@ -30,6 +33,10 @@ public class TransferServiceImpl implements TransferService {
 		this.restTemplate = restTemplate;
 	}
 
+//	@Transactional(value="kafkaTransactionManager",
+//			rollbackFor={TransferServiceException.class, ConnectException.class},
+//			noRollbackFor={SpecificException.class})
+	@Transactional
 	@Override
 	public boolean transfer(TransferRestModel transferRestModel) {
 		WithdrawalRequestedEvent withdrawalEvent = new WithdrawalRequestedEvent(transferRestModel.getSenderId(),

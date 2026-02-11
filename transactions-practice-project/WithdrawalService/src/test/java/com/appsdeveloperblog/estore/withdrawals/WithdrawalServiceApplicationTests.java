@@ -1,10 +1,10 @@
-package com.appsdeveloperblog.estore.DepositService;
+package com.appsdeveloperblog.estore.withdrawals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DepositServiceApplicationTests {
+class WithdrawalServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
