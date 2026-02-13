@@ -16,8 +16,6 @@ import com.appsdeveloperblog.estore.transfers.model.TransferRestModel;
 import com.appsdeveloperblog.payments.ws.core.events.DepositRequestedEvent;
 import com.appsdeveloperblog.payments.ws.core.events.WithdrawalRequestedEvent;
 
-import java.net.ConnectException;
-
 @Service
 public class TransferServiceImpl implements TransferService {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -50,7 +48,7 @@ public class TransferServiceImpl implements TransferService {
 			LOGGER.info("Sent event to withdrawal topic.");
 
 			// Business logic that causes and error
-			callRemoteServce();
+			callRemoteService();
 
 			kafkaTemplate.send(environment.getProperty("deposit-money-topic", "deposit-money-topic"), depositEvent);
 			LOGGER.info("Sent event to deposit topic");
@@ -63,18 +61,17 @@ public class TransferServiceImpl implements TransferService {
 		return true;
 	}
 
-	private ResponseEntity<String> callRemoteServce() throws Exception {
+	private void callRemoteService() throws Exception {
 		String requestUrl = "http://localhost:8082/response/200";
 		ResponseEntity<String> response = restTemplate.exchange(requestUrl, HttpMethod.GET, null, String.class);
 
 		if (response.getStatusCode().value() == HttpStatus.SERVICE_UNAVAILABLE.value()) {
-			throw new Exception("Destination Microservice not availble");
+			throw new Exception("Destination Microservice not available");
 		}
 
 		if (response.getStatusCode().value() == HttpStatus.OK.value()) {
-			LOGGER.info("Received response from mock service: " + response.getBody());
+			LOGGER.info("Received response from mock service: {}", response.getBody());
 		}
-		return response;
 	}
 
 }
