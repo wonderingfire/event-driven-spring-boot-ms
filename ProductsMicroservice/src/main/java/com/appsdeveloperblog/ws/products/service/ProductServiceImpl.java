@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -24,9 +24,11 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public String createProduct(CreateProductRestModel productRestModel) throws Exception {
+
         String productId = UUID.randomUUID().toString();
 
         // TODO: persist product details into database table before publishing an event
+
         ProductCreatedEvent productCreatedEvent =new ProductCreatedEvent(
                 productId, productRestModel.getTitle(),
                 productRestModel.getPrice(),
@@ -42,7 +44,6 @@ public class ProductServiceImpl implements ProductService{
 
         SendResult<String, ProductCreatedEvent> result =
                 kafkaTemplate.send(record).get();
-
 
         LOGGER.info("Partition: {}", result.getRecordMetadata().partition());
         LOGGER.info("Topic: {}", result.getRecordMetadata().topic());
