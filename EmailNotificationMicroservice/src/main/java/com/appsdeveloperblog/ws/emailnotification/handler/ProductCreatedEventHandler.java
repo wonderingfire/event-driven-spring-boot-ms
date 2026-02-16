@@ -52,6 +52,7 @@ public class ProductCreatedEventHandler {
         }
 
         String requestUrl = "http://localhost:8082/response/200";
+
         try {
             ResponseEntity<String> response = restTemplate.exchange(requestUrl, HttpMethod.GET, null, String.class);
             if (response.getStatusCode().value() == HttpStatus.OK.value()) {
