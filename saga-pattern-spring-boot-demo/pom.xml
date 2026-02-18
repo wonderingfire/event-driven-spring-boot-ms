@@ -12,11 +12,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.5.10</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <modules>
+        <module>core</module>
         <module>orders-service</module>
         <module>products-service</module>
         <module>payments-service</module>
@@ -33,7 +34,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>3.2.5</version>
+                <version>3.5.10</version>
             </dependency>
             <dependency>
                 <groupId>org.testcontainers</groupId>
